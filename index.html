@@ -1,261 +1,692 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hrithik Sagar — AI Researcher</title>
+  <meta name="description" content="AI/ML Researcher at IIIT Hyderabad. Working on Vision-Language Models, Multimodal Document Understanding, and Indic AI.">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-176270417-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-176270417-1');
-  </script>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <meta name="generator" content="pandoc">
-  <title>Hrithik Sagar Rachakonda</title>
-  <script src="./ravikiran_files/jquery-1.js"></script>
-  <link rel="stylesheet" href="./ravikiran_files/bootstrap.css">
-  <link rel="stylesheet" href="./ravikiran_files/bootstrap-theme.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="./ravikiran_files/bootstrap.js"></script>
   <style>
-    /* http://stackoverflow.com/questions/18325779/bootstrap-3-collapse-show-state-with-chevron-icon */
-    .panel-heading .accordion-toggle:before {
-      font-family: 'Nunito';
-      content: "\e114";
-      float: left;
-      color: grey;
-      padding-right: 6px;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f8f6;
+      --surface: #ffffff;
+      --ink: #0f0e0d;
+      --ink-muted: #6b6560;
+      --ink-faint: #b5b0aa;
+      --accent: #c94f2a;
+      --accent-light: #f0e6e1;
+      --border: #e8e4de;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --r: 12px;
     }
-    .panel-heading .accordion-toggle.collapsed:before {
-      content: "\e080";
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
     }
 
-table, th, td {
-    border: 0px solid black;
-    border-collapse: collapse;
-}
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 64px;
+      background: rgba(249,248,246,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-name {
+      font-family: var(--serif); font-size: 1.05rem;
+      color: var(--ink); text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 400; letter-spacing: 0.04em;
+      color: var(--ink-muted); text-decoration: none; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
 
-.fa {
-  padding: 5px;
-  font-size: 30px;
-  width: 45px;
-  text-align: center;
-  text-decoration: none;
-  margin: 5px 2px;
-}
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(4rem, 10vh, 7rem);
+    }
+    .hero-label {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1.25rem;
+      opacity: 0; animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3.2rem, 8.5vw, 8rem);
+      line-height: 1.03;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      max-width: 16ch;
+      opacity: 0; animation: fadeUp 0.9s 0.35s ease forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      color: var(--ink-muted);
+      max-width: 52ch;
+      font-weight: 300;
+      opacity: 0; animation: fadeUp 0.9s 0.5s ease forwards;
+    }
+    .hero-actions {
+      margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.65s ease forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.7rem 1.5rem; border-radius: 100px;
+      font-size: 0.88rem; font-weight: 500; letter-spacing: 0.02em;
+      text-decoration: none; transition: all 0.22s ease;
+      cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--ink); color: var(--bg); }
+    .btn-primary:hover { background: #2d2b28; transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--ink-muted); transform: translateY(-1px); }
 
-.fa:hover {
-    opacity: 0.7;
-}
+    .hero-scroll-hint {
+      position: absolute; bottom: 2.5rem; right: clamp(1.5rem, 5vw, 4rem);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeIn 1s 1.2s ease forwards;
+    }
+    .hero-scroll-hint span {
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-faint); writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--ink-faint), transparent);
+      animation: scrollPulse 2s 1.5s infinite;
+    }
 
-.fa-twitter {
-  background: #55ACEE;
-  color: white;
-}
+    /* ─── SECTIONS ─── */
+    section {
+      padding: clamp(4rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4rem);
+    }
+    .section-label {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
 
-.fa-linkedin {
-  background: #007bb5;
-  color: white;
-}
+    /* ─── ABOUT ─── */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+    .about-text p {
+      font-size: 1.05rem; color: var(--ink-muted);
+      font-weight: 300; margin-bottom: 1.2rem;
+      max-width: 52ch;
+    }
+    .about-text p strong { color: var(--ink); font-weight: 500; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; margin-top: 0.5rem;
+    }
+    .stat-card {
+      background: var(--bg); border-radius: var(--r);
+      padding: 1.5rem; border: 1px solid var(--border);
+    }
+    .stat-number {
+      font-family: var(--serif); font-size: 2.4rem;
+      color: var(--ink); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem; color: var(--ink-muted);
+      margin-top: 0.35rem;
+    }
 
-.fa-youtube {
-  background: #bb0000;
-  color: white;
-}
+    /* ─── EXPERIENCE ─── */
+    #experience { background: var(--bg); }
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid; grid-template-columns: 180px 1fr;
+      gap: 2rem; padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .timeline-item.visible { opacity: 1; transform: translateY(0); }
+    .timeline-meta { padding-top: 0.1rem; }
+    .timeline-period {
+      font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-faint);
+      text-transform: uppercase; margin-bottom: 0.25rem;
+    }
+    .timeline-location { font-size: 0.85rem; color: var(--ink-muted); }
+    .timeline-role {
+      font-family: var(--serif); font-size: 1.35rem;
+      color: var(--ink); margin-bottom: 0.25rem;
+    }
+    .timeline-org {
+      font-size: 0.9rem; font-weight: 500; color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .timeline-desc {
+      font-size: 0.93rem; color: var(--ink-muted);
+      font-weight: 300; line-height: 1.7;
+    }
+    .tag {
+      display: inline-block; padding: 0.2rem 0.65rem;
+      background: var(--accent-light); color: var(--accent);
+      border-radius: 100px; font-size: 0.72rem; font-weight: 500;
+      margin-top: 0.75rem; margin-right: 0.35rem;
+    }
 
+    /* ─── PUBLICATIONS ─── */
+    #publications { background: var(--surface); }
+    .pub-grid { display: flex; flex-direction: column; gap: 1px; }
+    .pub-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.75rem 2rem;
+      margin-bottom: 1rem;
+      transition: box-shadow 0.22s ease, transform 0.22s ease;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.22s ease;
+    }
+    .pub-card.visible { opacity: 1; transform: translateY(0); }
+    .pub-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.07); transform: translateY(-2px); }
+    .pub-venue {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .pub-title {
+      font-family: var(--serif); font-size: 1.15rem;
+      color: var(--ink); margin-bottom: 0.5rem; line-height: 1.35;
+    }
+    .pub-meta { font-size: 0.83rem; color: var(--ink-muted); font-weight: 300; }
+    .pub-link {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.8rem; color: var(--ink); font-weight: 500;
+      text-decoration: none; margin-top: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .pub-link:hover { border-color: var(--ink); }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--bg); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.75rem;
+      transition: box-shadow 0.22s, transform 0.22s;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.22s ease;
+    }
+    .project-card.visible { opacity: 1; transform: translateY(0); }
+    .project-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.07); transform: translateY(-2px); }
+    .project-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent-light); display: flex; align-items: center;
+      justify-content: center; margin-bottom: 1rem; font-size: 1.1rem;
+    }
+    .project-title {
+      font-family: var(--serif); font-size: 1.1rem;
+      color: var(--ink); margin-bottom: 0.35rem;
+    }
+    .project-org { font-size: 0.78rem; color: var(--accent); font-weight: 500; margin-bottom: 0.6rem; }
+    .project-desc { font-size: 0.88rem; color: var(--ink-muted); font-weight: 300; line-height: 1.65; }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--surface); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .skill-group {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.5rem;
+    }
+    .skill-group-title {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem;
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-pill {
+      padding: 0.28rem 0.75rem; border-radius: 100px;
+      background: var(--surface); border: 1px solid var(--border);
+      font-size: 0.8rem; color: var(--ink); font-weight: 400;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--ink);
+      color: var(--bg);
+    }
+    #contact .section-label { color: #c07060; }
+    #contact .section-title { color: var(--bg); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+    .contact-text {
+      font-size: 1.05rem; color: rgba(249,248,246,0.65);
+      font-weight: 300; max-width: 44ch; line-height: 1.75;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r);
+      text-decoration: none; color: var(--bg);
+      font-size: 0.92rem;
+      transition: background 0.22s, border-color 0.22s;
+    }
+    .contact-link:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
+    .contact-link-label { font-weight: 400; }
+    .contact-link-val { font-size: 0.8rem; color: rgba(249,248,246,0.5); }
+    .arrow { font-size: 0.85rem; opacity: 0.4; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer p { font-size: 0.8rem; color: rgba(249,248,246,0.3); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.15); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .about-grid, .contact-grid, .timeline-item { grid-template-columns: 1fr; gap: 1.5rem; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .hero-scroll-hint { display: none; }
+    }
   </style>
-
-<style type="text/css">
-	.fa {
-  padding: 5px;
-  font-size: 30px;
-  width: 45px;
-  text-align: center;
-  text-decoration: none;
-  margin: 5px 2px;
-}
-
-.fa:hover {
-    opacity: 0.7;
-}
-
-.fa-twitter {
-  background: #55ACEE;
-  color: white;
-}
-
-.fa-linkedin {
-  background: #007bb5;
-  color: white;
-}
-
-.fa-youtube {
-  background: #bb0000;
-  color: white;
-}
-
-
-</style>
-
 </head>
-
 <body>
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container">
-      <ul class="nav navbar-nav">
-        <li><a href="index.html"><font style="font-size:20px; font-weight:500;" color="#003380">Hrithik Sagar Rachakonda</font></a></li>
-        <li><a href="publications.html"><font size="4px" color="#E62E00"><b>Publications</b></font></a></li>
-        <li><a href="research.html"><font size="4px" color="#E62E00"><b>Current Research</b></font></a></li-->
-        <!--li><a href="past-research.html"><font size="4px" color="#E62E00"><b>Past Research</b></font></a></li	
-      </ul>
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-name">Hrithik Sagar</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#publications">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="position:relative;">
+  <p class="hero-label">MS by Research · IIIT Hyderabad</p>
+  <h1 class="hero-title">Vision. <em>Language.</em> Documents.</h1>
+  <p class="hero-sub">
+    I'm Hrithik Sagar — an AI researcher building Vision-Language Models for multimodal document understanding and Indic AI, with work published at CVPR 2026.
+  </p>
+  <div class="hero-actions">
+    <a href="#publications" class="btn btn-primary">View Research</a>
+    <a href="https://scholar.google.com/citations?user=pfHRAAkAAAAJ&hl=en" target="_blank" class="btn btn-ghost">Google Scholar ↗</a>
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About</p>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2 class="section-title">Building AI that understands documents like humans do.</h2>
+      <p>
+        I'm an <strong>MS by Research student</strong> at IIIT Hyderabad, working on Vision-Language Models, Multimodal Document Understanding, and Indic AI — the frontier of making AI systems that can read, reason about, and ground answers in complex documents.
+      </p>
+      <p>
+        At <strong>BharatGen</strong>, I contributed to <strong>Patram-7B</strong> — India's first foundational VLM for documents, released on HuggingFace and the IndiaAI AIKosh platform. My research spans grounded chain-of-thought reasoning, SAM-based segmentation, and SFT/DPO training pipelines.
+      </p>
+      <p>
+        I hold a <strong>B.Tech in CSE (AI & ML)</strong> from Sharda University, where I graduated with a 8.4 GPA on a full tuition scholarship for academic excellence.
+      </p>
     </div>
-  </nav>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-number">CVPR</div>
+        <div class="stat-label">2026 Main Conference — top-tier CV venue</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">~31</div>
+        <div class="stat-label">Citations · h-index 3</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Publications & Patents</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">Patram</div>
+        <div class="stat-label">India's first document-focused VLM</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <div class="container">
-<p style="margin:10px 0px 0px 0px;"></p>
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">Experience</p>
+  <h2 class="section-title">Where I've worked.</h2>
+  <div class="timeline">
 
-    <a name="introduction"></a>
-<ul class="list-group" style="border-style:solid; border-width:2.5px; border-radius:3px; border-color:#666666;">
-<!--<ul class="list-group">-->
-      <li class="list-group-item">
-        <div class="media">
-           <div class="pull-left" style="padding:0% 0% 0% 0.2%; width:15.2%;">
-           <div class="box" style="width:86%; padding:0px 0px 0px 0px;">
-<div align="center">
-<img src="1. hrithikpic.jpg" width="100%" style="border-radius:5px;">
-</div>
-</div>
-</div>
-<div class="pull-left" style="padding:0% 0% 0% 0.1%; width:43%;">
-<font style="font-size:23px;"><b>Hrithik Sagar Rachakonda</b></font><br><p style="margin:9px 0px 0px 0px;"></p><font style="font-size:18px;">Post Graduation Student Status Program (PGSSP) </font><br><font style="font-size:15px;"><a href="https://www.iiit.ac.in/">International Institute of Information Technology (IIIT-H)</a></font><br><font style="font-size:15px;">Gachibowli, Hyderabad 500032, INDIA</font>
-<br>
-</div>
-<div class="pull-right" style="background-color:#E6E6FF; width:32.2%; border-radius:5px; padding:0.45% 0.5% 0.7% 1.5%;">
-<font style="font-size:18px;">
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <div class="timeline-period">Jan 2025 – Present</div>
+        <div class="timeline-location">Hyderabad</div>
+      </div>
+      <div>
+        <div class="timeline-role">Data Research Engineer, RA</div>
+        <div class="timeline-org">BharatGen · IndiaAI</div>
+        <p class="timeline-desc">
+          Core contributor to <strong>Patram-7B</strong>, India's first foundational VLM for documents, built from scratch and publicly released on HuggingFace and IndiaAI AIKosh. Built large-scale data pipelines for Indic document datasets; led model training, evaluation, and benchmarking. Research on mask-based Document QA grounding resulted in a <strong>CVPR 2026</strong> main conference paper.
+        </p>
+        <span class="tag">VLMs</span><span class="tag">Document AI</span><span class="tag">Indic AI</span><span class="tag">CVPR 2026</span>
+      </div>
+    </div>
 
-<b>Contact Information:</b><br>
-<p style="margin:4px 0px 0px 0px;"></p>
-</font>
-<font style="font-size:15.0px;">
-<br> Kavadiguda, Gandhi Nagar, Hyderabad 500080, INDIA <br>
-<b>Email</b>: &nbsp;&nbsp;Hrithik.Rachakonda@students.iiit.ac.in<br>
-<b>Personal Email</b>: &nbsp;&nbsp;HrithikSagar.Rachakonda@gmail.com<br>
-</font>
-	<a href="https://twitter.com/r_hrithiksagar" class="fa fa-twitter"></a>
-        <a href="https://www.linkedin.com/in/rachakonda-hrithik-sagar-539046175/" class="fa fa-linkedin"></a>
-        <a href="https://www.youtube.com/channel/UChu1bqNerJYWX8CXYbDrmWQ" class="fa fa-youtube"></a>
-	<!-- <a href="https://broadleaf-marscapone-c6c.notion.site/Meta-e2ae83234a1e436393b9fb9defc0222d" class="fa fa-notion"></a> -->
-</div>
-</div>
-</li>
-</ul>
-<br>
-</br>
-    <a name="interests"></a>
-    <div class="page-header"><h2 id="textbook" style="font-size:25px;">Research Interests</h2></div>
-<p style="margin:15px 0px 0px 0px;"></p>
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <div class="timeline-period">May 2024 – Dec 2024</div>
+        <div class="timeline-location">IIIT Hyderabad</div>
+      </div>
+      <div>
+        <div class="timeline-role">Research Assistant</div>
+        <div class="timeline-org">CVIT, IIIT Hyderabad</div>
+        <p class="timeline-desc">
+          Developed multimodal VLMs for Indic document understanding. Built <strong>M3Grounder</strong>, a mask-based multi-span and multi-granular grounding system achieving state-of-the-art results on DOGR-Bench, BoundingDocs, and MMDocBench.
+        </p>
+        <span class="tag">M3Grounder</span><span class="tag">Multimodal</span><span class="tag">Grounding</span>
+      </div>
+    </div>
 
-<p> 
-    
-    My work is primarily in the area of Computer Vision. I have broad-ranging research interests and like to work on inter-disciplinary problems involving Image and Video formats but not limited to these 
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <div class="timeline-period">Mar 2022 – Aug 2024</div>
+        <div class="timeline-location">Hyderabad</div>
+      </div>
+      <div>
+        <div class="timeline-role">Machine Learning Engineer</div>
+        <div class="timeline-org">Tech At Core · Part-time</div>
+        <p class="timeline-desc">
+          Built chatbots and AI solutions achieving 82–96% accuracy across client deployments. Engineered a patent-pending drone-ML device combining computer vision with autonomous navigation.
+        </p>
+        <span class="tag">ML Engineering</span><span class="tag">NLP</span><span class="tag">Drones</span>
+      </div>
+    </div>
 
-</p>
+  </div>
+</section>
 
-<!-- <p> For projects and other past research, click <a href="research.html">here</a>.</p> -->
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <p class="section-label">Research</p>
+  <h2 class="section-title">Publications & Patents.</h2>
+  <div class="pub-grid">
 
-<p style="margin:-24px 0px 0px 0px;"></p>
-<br>
-</br>
-<a name="news"></a>
-    <div class="page-header"><h2 id="textbook" style="font-size:25px;">News</h2></div>
+    <div class="pub-card reveal">
+      <div class="pub-venue">CVPR 2026 · Main Conference</div>
+      <div class="pub-title">M3Grounder: Mask-Based Multi-Span and Multi-Granular Grounding for Document QA</div>
+      <div class="pub-meta">Co-second Author (equal contribution) · Acceptance rate ~25%</div>
+      <a href="https://m3grounder.github.io/" target="_blank" class="pub-link">Project Page ↗</a>
+    </div>
 
+    <div class="pub-card reveal">
+      <div class="pub-venue">ECCV 2026 · Under Review</div>
+      <div class="pub-title">DoCoG: Mask-based Multi-Type Grounded Chain-of-Thought for Document QA</div>
+      <div class="pub-meta">Co-first Author · Introduced a mask-based grounded CoT framework enabling multi-type grounding of textual and graphical elements via a novel Grounding Interaction Module with [GND] tokens.</div>
+    </div>
 
-<table class="table table-borderless" style="border-style:solid; border-width:0px;">
-            <tbody>
-            <!--FFD6BA-->
-	   <tr>	
-	   
-            <tr>
-                <td bgcolor="#FFD6BA" width="123">May 07, 2022</td><td bgcolor="#FFD6BA"  width="40"></td><td bgcolor="#FFD6BA" > Paper accepted for publication in <a href="https://link.springer.com/chapter/10.1007/978-3-031-23724-9_48"> 2022 International Conference on Advancements in Interdisciplinary Research (AIR 2022) - Springer</a>.</td>
-            </tr>
+    <div class="pub-card reveal">
+      <div class="pub-venue">Springer · 2020 · 28 Citations</div>
+      <div class="pub-title">AI-Enabled Healthcare Chatbot for Patient Assistance</div>
+      <div class="pub-meta">Applications of AI & ML, Lecture Notes in Electrical Engineering, Springer</div>
+    </div>
 
-            <tr>
-                <td bgcolor="#FFD6BA" width="123">Apr 08, 2021</td><td bgcolor="#FFD6BA"  width="40"></td><td bgcolor="#FFD6BA" > Paper accepted for publication in <a href="https://ijtrs.com/paper.php?issue_id=83&issueVolume_id=10"> 2021 International Journal of Technical Research and Science (IJTRS)</a>.</td>
-            </tr>
-            <tr>
-                <td bgcolor="#FFD6BA" width="123">Aug 09, 2021</td><td bgcolor="#FFD6BA"  width="40"></td><td bgcolor="#FFD6BA" > Patent Applied for Indian Government in <a href="https://ipindiaservices.gov.in/PatentSearch/PatentSearch/ViewApplicationStatus"> Oral Healthcare Managment System</a>.</td>
-            </tr>
-            <tr>
-                <td bgcolor="#FFD6BA" width="123">Oct 09, 2020</td><td bgcolor="#FFD6BA"  width="40"></td><td bgcolor="#FFD6BA" > Paper accepted for publication in <a href="https://link.springer.com/chapter/10.1007/978-981-16-3067-5_18"> 2020 Book - Lecture Notes in Electrical Engineering - Springer</a>.</td>
-            </tr>
-            
-<!-- <tr>
-    <td width="123"></td><td width="40"></td><td> <a href="https://www.newindianexpress.com/states/telangana/2019/oct/16/now-ai-to-help-study-old-manuscripts-2048229.html"><img src="ravikiran_files/ie-indiscapes.png"></a></td><td> <a href="https://timesofindia.indiatimes.com/city/hyderabad/city-gets-first-of-its-kind-database-to-decode-palm-leaf-manuscripts/articleshow/71621784.cms"><img src="ravikiran_files/toi-indiscapes.png"></a>.</td>
-</tr> -->
+    <div class="pub-card reveal">
+      <div class="pub-venue">ICTACT · 2022 · 3 Citations</div>
+      <div class="pub-title">Malignant Skin Cancer Detection using CNN</div>
+      <div class="pub-meta">ICTACT Journal on Image and Video Processing, 2022</div>
+    </div>
 
-			</tbody></table>
+    <div class="pub-card reveal">
+      <div class="pub-venue">Springer AIR 2022 · Patent 202111040354</div>
+      <div class="pub-title">Women Assault Detection Using Pitch | Oral Healthcare Management Device</div>
+      <div class="pub-meta">Springer, Advancements in Interdisciplinary Research (AIR 2022) · Patent filed 2021–22</div>
+    </div>
 
-<br>
-</br>
-<font size="4px"><b>Older News Archive</b></font> &nbsp;&nbsp;&nbsp;<a class="syllabus-toggle collapsed" data-toggle="collapse" data-parent="#oldernews" href="#oldernews-list"><i>(click to Expand / Collapse)</i></a><br>
-<p style="margin:10px 0px 0px 0px;"></p>
-<div id="oldernews-list" class="panel-collapse collapse out">
-<table class="table table-borderless" style="border-style:solid; border-width:1.2px;">
-            <tbody>
-<!-- <tr>
-    <td width="123">Oct 17, 2018</td><td width="40"></td><td>Journal version of AAAI-18 paper accepted for publication in Transactions on Pattern Analysis and Machine Intelligence (TPAMI)</td>
-</tr>
-            <tr>
-                <td width="123">Sep 29, 2018</td><td width="40"></td><td>Lecture at <a href="https://cie.iiit.ac.in/aiml/" target="_blank">TalentSprint/IIIT-H Foundations of Artificial Intelligence & Machine Learning Advanced Certification Program</a>.</td>
-            </tr>
-            <tr>
-                <td width="123">Jul 28, 2018</td><td width="40"></td><td>Lecture at <a href="https://cie.iiit.ac.in/aiml/" target="_blank">TalentSprint/IIIT-H Foundations of Artificial Intelligence & Machine Learning Advanced Certification Program</a>.</td>
-            </tr> -->
-<tr>
-  <td width="123">July 24, 2023</td>
-    <!--td bgcolor="#FFD6BA" width="123">July 9, 2018</td>
-    <td bgcolor="#FFD6BA" width="40"></td>
-    <td bgcolor="#FFD6BA"-->
-      <td width="40"></td><td>Joined <a href="https://www.iiit.ac.in/" target="_blank">IIIT-Hyderabad</a> as an Part time Student.</td>
-</tr>
+  </div>
+</section>
 
-<!-- <tr>
-    <td width="123">Nov 8, 2017</td><td width="40"></td><td> Paper accepted at <a href="https://aaai.org/Conferences/AAAI-18/">AAAI-2018</a>.</td>
-</tr>
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2 class="section-title">Selected work.</h2>
+  <div class="projects-grid">
 
-<tr>
-    <td width="123">July 2, 2017</td><td width="40"></td><td> Paper accepted at <a href="http://www.acmmm.org/2017/">ACMMM-2017</a>.</td>
-</tr>
+    <div class="project-card reveal">
+      <div class="project-icon">⚖️</div>
+      <div class="project-title">Unveiling Bias in LLMs</div>
+      <div class="project-org">IIIT Hyderabad · 2024</div>
+      <p class="project-desc">Investigated demographic and linguistic bias in LLMs using Indian language prompts across multiple Indic languages — examining how multilingual models encode and propagate societal biases.</p>
+    </div>
 
-<tr>
-    <td width="123">Feb 27, 2017</td><td width="40"></td><td> Paper accepted at <a href="http://cvpr2017.thecvf.com/">CVPR-2017</a>.</td>
-</tr> -->
+    <div class="project-card reveal">
+      <div class="project-icon">🤖</div>
+      <div class="project-title">Robot Trajectory Planning</div>
+      <div class="project-org">IIIT Hyderabad · 2024</div>
+      <p class="project-desc">Implemented the cross-entropy method (CEM) for autonomous obstacle avoidance and navigation in ROS1 — enabling a robot to plan trajectories in dynamic environments with real-time feedback.</p>
+    </div>
 
-<tr>
-    <td width="123">Aug 15, 2018</td><td width="40"></td><td> Joined <a href="www.sharda.ac.in">Sharda University, Greater Noida, India as a UG Student</a>. </td>
-</tr>
-</tbody></table>
+    <div class="project-card reveal">
+      <div class="project-icon">🏥</div>
+      <div class="project-title">AI Healthcare Chatbot</div>
+      <div class="project-org">Springer Publication · 2020</div>
+      <p class="project-desc">Developed an intelligent patient assistance chatbot combining NLP and medical knowledge bases, published in Springer's AI & ML Applications series with 28 citations.</p>
+    </div>
 
-</div>
-<br>
+    <div class="project-card reveal">
+      <div class="project-icon">🚁</div>
+      <div class="project-title">Drone-ML Device</div>
+      <div class="project-org">Tech At Core · Patent-pending</div>
+      <p class="project-desc">Engineered a patent-pending drone device integrating machine learning for real-time computer vision tasks — combining autonomous flight control with onboard inference capabilities.</p>
+    </div>
 
-<p style="margin:2px 0px 0px 0px;"></p>
+  </div>
+</section>
 
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Skills</p>
+  <h2 class="section-title">Technical toolkit.</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Languages & Libraries</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">C++</span>
+        <span class="skill-pill">SQL</span>
+        <span class="skill-pill">PyTorch</span>
+        <span class="skill-pill">TensorFlow</span>
+        <span class="skill-pill">OpenCV</span>
+        <span class="skill-pill">SAM</span>
+        <span class="skill-pill">PEFT / LoRA</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">AI / ML</div>
+      <div class="skill-pills">
+        <span class="skill-pill">VLMs</span>
+        <span class="skill-pill">Multimodal Learning</span>
+        <span class="skill-pill">Deep Learning</span>
+        <span class="skill-pill">NLP</span>
+        <span class="skill-pill">Instruction Tuning</span>
+        <span class="skill-pill">RLHF</span>
+        <span class="skill-pill">Document AI</span>
+        <span class="skill-pill">Synthetic Data</span>
+        <span class="skill-pill">LLM Evaluation</span>
+        <span class="skill-pill">RAG</span>
+        <span class="skill-pill">AI Agents</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">LLMs & Orchestration</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Claude</span>
+        <span class="skill-pill">GPT-4</span>
+        <span class="skill-pill">Gemini</span>
+        <span class="skill-pill">LangChain</span>
+        <span class="skill-pill">LlamaIndex</span>
+        <span class="skill-pill">DSPy</span>
+        <span class="skill-pill">vLLM</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Ecosystem & Infra</div>
+      <div class="skill-pills">
+        <span class="skill-pill">HuggingFace</span>
+        <span class="skill-pill">DeepSpeed</span>
+        <span class="skill-pill">FAISS</span>
+        <span class="skill-pill">Pinecone</span>
+        <span class="skill-pill">WandB</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">GCP</span>
+        <span class="skill-pill">SLURM</span>
+        <span class="skill-pill">Streamlit</span>
+        <span class="skill-pill">Gradio</span>
+        <span class="skill-pill">Git</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!--</div>-->
-<br>
-<p style="margin:-16px 0px 0px 0px;"></p>
-<p><a href="#"><span class="glyphicon glyphicon-arrow-up"></span> back to top</a></p>
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Contact</p>
+  <div class="contact-grid">
+    <div>
+      <h2 class="section-title">Let's connect.</h2>
+      <p class="contact-text">
+        I'm always open to discussing research collaborations, internship opportunities, or just talking about multimodal AI and document understanding. Reach out through any of the channels below.
+      </p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:HrithikSagar.Rachakonda@gmail.com" class="contact-link">
+        <div>
+          <div class="contact-link-label">Email</div>
+          <div class="contact-link-val">HrithikSagar.Rachakonda@gmail.com</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+      <a href="https://github.com/hrithiksagar" target="_blank" class="contact-link">
+        <div>
+          <div class="contact-link-label">GitHub</div>
+          <div class="contact-link-val">github.com/hrithiksagar</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+      <a href="https://linkedin.com/in/hrithiksagar" target="_blank" class="contact-link">
+        <div>
+          <div class="contact-link-label">LinkedIn</div>
+          <div class="contact-link-val">linkedin.com/in/hrithiksagar</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+      <a href="https://scholar.google.com/citations?user=pfHRAAkAAAAJ&hl=en" target="_blank" class="contact-link">
+        <div>
+          <div class="contact-link-label">Google Scholar</div>
+          <div class="contact-link-val">~31 citations · h-index 3</div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
 
-</div>
-<br>
-<br>
-<p><font size=1>Website template taken from <a href="https://github.com/ravika/ravika.github.io/tree/master"> Ravi Kiran</a>'s website </a></font>.
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Rachakonda Hrithik Sagar. All rights reserved.</p>
+  <p>IIIT Hyderabad · Telangana, India</p>
+</footer>
 
+<script>
+  // Intersection Observer for scroll reveals
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // Stagger siblings
+        const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
+        const idx = siblings.indexOf(entry.target);
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, idx * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-</body></html>
+  reveals.forEach(el => observer.observe(el));
+
+  // Smooth active nav highlighting
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--ink)' : '';
+    });
+  }, { passive: true });
+</script>
+</body>
+</html>
