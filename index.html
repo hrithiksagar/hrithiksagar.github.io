@@ -1,692 +1,460 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hrithik Sagar — AI Researcher</title>
-  <meta name="description" content="AI/ML Researcher at IIIT Hyderabad. Working on Vision-Language Models, Multimodal Document Understanding, and Indic AI.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hrithik Sagar Rachakonda — Vision-Language Models · Document Grounding</title>
+<meta name="description" content="Hrithik Sagar Rachakonda — AI researcher at CVIT, IIIT Hyderabad and BharatGen. Vision-language models, document grounding, multimodal reasoning. DoCoG (ECCV 2026), M3Grounder (CVPR 2026), Patram-7B.">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+/* ————————————————————————————————————————
+   DESIGN SYSTEM — "the annotated document"
+   The page behaves like a paper a model has grounded:
+   key spans carry highlighter marks; metadata is set
+   in mono like arXiv IDs; figures are schematic docs
+   with mask overlays.
+———————————————————————————————————————— */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-    :root {
-      --bg: #f9f8f6;
-      --surface: #ffffff;
-      --ink: #0f0e0d;
-      --ink-muted: #6b6560;
-      --ink-faint: #b5b0aa;
-      --accent: #c94f2a;
-      --accent-light: #f0e6e1;
-      --border: #e8e4de;
-      --serif: 'DM Serif Display', Georgia, serif;
-      --sans: 'DM Sans', system-ui, sans-serif;
-      --r: 12px;
-    }
+:root{
+  --paper:#FCFCFA;
+  --paper-2:#F4F4F0;
+  --ink:#16181D;
+  --muted:#565B65;
+  --faint:#9BA0A8;
+  --line:#E5E5DF;
+  --mark:#FFE873;            /* highlighter */
+  --mark-soft:rgba(255,225,90,.42);
+  --link:#2545C8;            /* annotation blue */
+  --mask-a:rgba(37,69,200,.16);   /* schematic masks */
+  --mask-b:rgba(255,205,40,.55);
+  --mask-c:rgba(35,160,120,.28);
+  --serif:'Newsreader',Georgia,serif;
+  --sans:'Instrument Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
 
-    html { scroll-behavior: smooth; }
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16.5px;
+  line-height:1.68;
+  -webkit-font-smoothing:antialiased;
+}
 
-    /* ─── NAV ─── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      height: 64px;
-      background: rgba(249,248,246,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-name {
-      font-family: var(--serif); font-size: 1.05rem;
-      color: var(--ink); text-decoration: none;
-      letter-spacing: 0.01em;
-    }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.85rem; font-weight: 400; letter-spacing: 0.04em;
-      color: var(--ink-muted); text-decoration: none; text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--ink); }
+::selection{background:var(--mark);color:var(--ink)}
 
-    /* ─── HERO ─── */
-    #hero {
-      min-height: 100svh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(4rem, 10vh, 7rem);
-    }
-    .hero-label {
-      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 1.25rem;
-      opacity: 0; animation: fadeUp 0.8s 0.2s ease forwards;
-    }
-    .hero-title {
-      font-family: var(--serif);
-      font-size: clamp(3.2rem, 8.5vw, 8rem);
-      line-height: 1.03;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      max-width: 16ch;
-      opacity: 0; animation: fadeUp 0.9s 0.35s ease forwards;
-    }
-    .hero-title em { font-style: italic; color: var(--accent); }
-    .hero-sub {
-      margin-top: 2rem;
-      font-size: clamp(1rem, 1.6vw, 1.2rem);
-      color: var(--ink-muted);
-      max-width: 52ch;
-      font-weight: 300;
-      opacity: 0; animation: fadeUp 0.9s 0.5s ease forwards;
-    }
-    .hero-actions {
-      margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp 0.9s 0.65s ease forwards;
-    }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      padding: 0.7rem 1.5rem; border-radius: 100px;
-      font-size: 0.88rem; font-weight: 500; letter-spacing: 0.02em;
-      text-decoration: none; transition: all 0.22s ease;
-      cursor: pointer; border: none;
-    }
-    .btn-primary { background: var(--ink); color: var(--bg); }
-    .btn-primary:hover { background: #2d2b28; transform: translateY(-1px); }
-    .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
-    .btn-ghost:hover { border-color: var(--ink-muted); transform: translateY(-1px); }
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:2px}
 
-    .hero-scroll-hint {
-      position: absolute; bottom: 2.5rem; right: clamp(1.5rem, 5vw, 4rem);
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-      opacity: 0; animation: fadeIn 1s 1.2s ease forwards;
-    }
-    .hero-scroll-hint span {
-      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--ink-faint); writing-mode: vertical-rl;
-    }
-    .scroll-line {
-      width: 1px; height: 48px;
-      background: linear-gradient(to bottom, var(--ink-faint), transparent);
-      animation: scrollPulse 2s 1.5s infinite;
-    }
+.wrap{max-width:960px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem)}
 
-    /* ─── SECTIONS ─── */
-    section {
-      padding: clamp(4rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4rem);
-    }
-    .section-label {
-      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 4.5vw, 3.5rem);
-      line-height: 1.1; letter-spacing: -0.02em;
-      margin-bottom: 3rem;
-    }
+/* ——— the signature: grounding mark ——— */
+.mark{
+  position:relative;
+  background:linear-gradient(to top,var(--mark-soft) 0 62%,transparent 62%);
+  border-radius:2px;
+  background-size:0% 100%;background-repeat:no-repeat;
+  animation:ground .7s ease forwards;
+}
+.mark.m2{animation-delay:.4s}
+@keyframes ground{to{background-size:100% 100%}}
 
-    /* ─── ABOUT ─── */
-    #about { background: var(--surface); }
-    .about-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 4rem; align-items: start;
-    }
-    .about-text p {
-      font-size: 1.05rem; color: var(--ink-muted);
-      font-weight: 300; margin-bottom: 1.2rem;
-      max-width: 52ch;
-    }
-    .about-text p strong { color: var(--ink); font-weight: 500; }
-    .about-stats {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1.5rem; margin-top: 0.5rem;
-    }
-    .stat-card {
-      background: var(--bg); border-radius: var(--r);
-      padding: 1.5rem; border: 1px solid var(--border);
-    }
-    .stat-number {
-      font-family: var(--serif); font-size: 2.4rem;
-      color: var(--ink); line-height: 1;
-    }
-    .stat-label {
-      font-size: 0.8rem; color: var(--ink-muted);
-      margin-top: 0.35rem;
-    }
+/* ——— nav ——— */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(252,252,250,.88);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:960px;margin:0 auto;
+  padding:0 clamp(1.25rem,4vw,2.5rem);
+  height:58px;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.nav-name{font-family:var(--serif);font-size:1.08rem;font-weight:500;color:var(--ink)}
+.nav-name:hover{text-decoration:none}
+.nav-links{display:flex;gap:1.6rem;list-style:none}
+.nav-links a{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);
+}
+.nav-links a:hover{color:var(--ink);text-decoration:none}
 
-    /* ─── EXPERIENCE ─── */
-    #experience { background: var(--bg); }
-    .timeline { display: flex; flex-direction: column; gap: 0; }
-    .timeline-item {
-      display: grid; grid-template-columns: 180px 1fr;
-      gap: 2rem; padding: 2rem 0;
-      border-top: 1px solid var(--border);
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .timeline-item.visible { opacity: 1; transform: translateY(0); }
-    .timeline-meta { padding-top: 0.1rem; }
-    .timeline-period {
-      font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-faint);
-      text-transform: uppercase; margin-bottom: 0.25rem;
-    }
-    .timeline-location { font-size: 0.85rem; color: var(--ink-muted); }
-    .timeline-role {
-      font-family: var(--serif); font-size: 1.35rem;
-      color: var(--ink); margin-bottom: 0.25rem;
-    }
-    .timeline-org {
-      font-size: 0.9rem; font-weight: 500; color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-    .timeline-desc {
-      font-size: 0.93rem; color: var(--ink-muted);
-      font-weight: 300; line-height: 1.7;
-    }
-    .tag {
-      display: inline-block; padding: 0.2rem 0.65rem;
-      background: var(--accent-light); color: var(--accent);
-      border-radius: 100px; font-size: 0.72rem; font-weight: 500;
-      margin-top: 0.75rem; margin-right: 0.35rem;
-    }
+/* ——— hero ——— */
+header.hero{padding:clamp(4rem,11vh,7.5rem) 0 clamp(3rem,7vh,5rem)}
+.kicker{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.4rem;
+}
+.hero h1{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(2.1rem,5.2vw,3.5rem);
+  line-height:1.2;letter-spacing:-.01em;
+  max-width:22ch;text-wrap:balance;
+}
+.hero h1 em{font-style:italic}
+.hero p.lede{
+  margin-top:1.6rem;max-width:58ch;
+  font-size:clamp(1rem,1.5vw,1.12rem);color:var(--muted);
+}
+.hero p.lede b{color:var(--ink);font-weight:600}
+.hero-links{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem 1.5rem}
+.hero-links a{
+  font-family:var(--mono);font-size:.8rem;color:var(--ink);
+  border-bottom:1px solid var(--line);padding-bottom:1px;
+}
+.hero-links a:hover{border-color:var(--ink);text-decoration:none}
 
-    /* ─── PUBLICATIONS ─── */
-    #publications { background: var(--surface); }
-    .pub-grid { display: flex; flex-direction: column; gap: 1px; }
-    .pub-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.75rem 2rem;
-      margin-bottom: 1rem;
-      transition: box-shadow 0.22s ease, transform 0.22s ease;
-      opacity: 0; transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.22s ease;
-    }
-    .pub-card.visible { opacity: 1; transform: translateY(0); }
-    .pub-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.07); transform: translateY(-2px); }
-    .pub-venue {
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
-    }
-    .pub-title {
-      font-family: var(--serif); font-size: 1.15rem;
-      color: var(--ink); margin-bottom: 0.5rem; line-height: 1.35;
-    }
-    .pub-meta { font-size: 0.83rem; color: var(--ink-muted); font-weight: 300; }
-    .pub-link {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      font-size: 0.8rem; color: var(--ink); font-weight: 500;
-      text-decoration: none; margin-top: 0.75rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1px;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .pub-link:hover { border-color: var(--ink); }
+/* ——— sections ——— */
+section{padding:clamp(2.6rem,6vh,4.2rem) 0;border-top:1px solid var(--line)}
+h2.sec{
+  font-family:var(--mono);font-size:.74rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:2rem;display:flex;align-items:baseline;gap:.75rem;
+}
+h2.sec::after{content:"";flex:1;height:1px;background:var(--line);transform:translateY(-3px)}
 
-    /* ─── PROJECTS ─── */
-    #projects { background: var(--bg); }
-    .projects-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.25rem;
-    }
-    .project-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.75rem;
-      transition: box-shadow 0.22s, transform 0.22s;
-      opacity: 0; transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.22s ease;
-    }
-    .project-card.visible { opacity: 1; transform: translateY(0); }
-    .project-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.07); transform: translateY(-2px); }
-    .project-icon {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: var(--accent-light); display: flex; align-items: center;
-      justify-content: center; margin-bottom: 1rem; font-size: 1.1rem;
-    }
-    .project-title {
-      font-family: var(--serif); font-size: 1.1rem;
-      color: var(--ink); margin-bottom: 0.35rem;
-    }
-    .project-org { font-size: 0.78rem; color: var(--accent); font-weight: 500; margin-bottom: 0.6rem; }
-    .project-desc { font-size: 0.88rem; color: var(--ink-muted); font-weight: 300; line-height: 1.65; }
+/* ——— news ——— */
+.news{display:grid;gap:.85rem}
+.news-item{display:grid;grid-template-columns:108px 1fr;gap:1.25rem;align-items:baseline}
+.news-date{font-family:var(--mono);font-size:.76rem;color:var(--faint);white-space:nowrap}
+.news-item p{font-size:.97rem;color:var(--muted)}
+.news-item p b{color:var(--ink);font-weight:600}
 
-    /* ─── SKILLS ─── */
-    #skills { background: var(--surface); }
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
-    .skill-group {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.5rem;
-    }
-    .skill-group-title {
-      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem;
-    }
-    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .skill-pill {
-      padding: 0.28rem 0.75rem; border-radius: 100px;
-      background: var(--surface); border: 1px solid var(--border);
-      font-size: 0.8rem; color: var(--ink); font-weight: 400;
-    }
+/* ——— featured research ——— */
+.paper{
+  display:grid;grid-template-columns:200px 1fr;gap:2.25rem;
+  padding:2rem 0;align-items:start;
+}
+.paper + .paper{border-top:1px dashed var(--line)}
+.fig{
+  border:1px solid var(--line);border-radius:6px;background:#fff;
+  aspect-ratio:4/3.4;padding:14px;overflow:hidden;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.paper:hover .fig{transform:translateY(-3px);box-shadow:0 10px 30px rgba(22,24,29,.08)}
+.fig svg{width:100%;height:100%;display:block}
+.venue{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;
+  color:var(--ink);background:var(--mark);border-radius:3px;
+  display:inline-block;padding:.14rem .5rem;margin-bottom:.7rem;
+}
+.venue.soft{background:var(--paper-2);color:var(--muted)}
+.paper h3{
+  font-family:var(--serif);font-weight:500;font-size:1.42rem;line-height:1.28;
+  margin-bottom:.4rem;letter-spacing:-.005em;
+}
+.authors{font-size:.9rem;color:var(--muted);margin-bottom:.7rem}
+.authors b{color:var(--ink);font-weight:600}
+.authors .note{font-family:var(--mono);font-size:.73rem;color:var(--faint)}
+.paper p.abs{font-size:.94rem;color:var(--muted);max-width:62ch}
+.paper-links{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.45rem 1.3rem}
+.paper-links a{font-family:var(--mono);font-size:.78rem}
 
-    /* ─── CONTACT ─── */
-    #contact {
-      background: var(--ink);
-      color: var(--bg);
-    }
-    #contact .section-label { color: #c07060; }
-    #contact .section-title { color: var(--bg); }
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 4rem; align-items: start;
-    }
-    .contact-text {
-      font-size: 1.05rem; color: rgba(249,248,246,0.65);
-      font-weight: 300; max-width: 44ch; line-height: 1.75;
-    }
-    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
-    .contact-link {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.1rem 1.5rem;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: var(--r);
-      text-decoration: none; color: var(--bg);
-      font-size: 0.92rem;
-      transition: background 0.22s, border-color 0.22s;
-    }
-    .contact-link:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
-    .contact-link-label { font-weight: 400; }
-    .contact-link-val { font-size: 0.8rem; color: rgba(249,248,246,0.5); }
-    .arrow { font-size: 0.85rem; opacity: 0.4; }
+/* ——— experience ——— */
+.xp{display:grid;grid-template-columns:150px 1fr;gap:1.5rem;padding:1.4rem 0}
+.xp + .xp{border-top:1px dashed var(--line)}
+.xp-when{font-family:var(--mono);font-size:.76rem;color:var(--faint);padding-top:.35rem}
+.xp h3{font-family:var(--serif);font-weight:500;font-size:1.15rem}
+.xp .org{font-size:.86rem;color:var(--muted);margin-bottom:.45rem}
+.xp p.desc{font-size:.93rem;color:var(--muted);max-width:64ch}
+.xp p.desc b{color:var(--ink);font-weight:600}
 
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 2rem clamp(1.5rem, 5vw, 4rem);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    footer p { font-size: 0.8rem; color: rgba(249,248,246,0.3); }
+/* ——— open source ——— */
+.oss{display:grid;gap:.7rem}
+.oss-item{display:flex;gap:.9rem;align-items:baseline;font-size:.95rem;color:var(--muted);flex-wrap:wrap}
+.oss-item code{
+  font-family:var(--mono);font-size:.8rem;color:var(--ink);
+  background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:.08rem .45rem;
+  white-space:nowrap;
+}
 
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(1.15); }
-    }
+/* ——— contact / footer ——— */
+footer{border-top:1px solid var(--line);padding:clamp(2.6rem,6vh,4rem) 0 2.5rem}
+.contact-line{
+  font-family:var(--serif);font-size:clamp(1.35rem,2.8vw,1.9rem);font-weight:400;
+  max-width:34ch;line-height:1.4;margin-bottom:1.8rem;text-wrap:balance;
+}
+.foot-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-bottom:2.5rem}
+.foot-links a{font-family:var(--mono);font-size:.8rem;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:1px}
+.foot-links a:hover{border-color:var(--ink);text-decoration:none}
+.colophon{font-family:var(--mono);font-size:.72rem;color:var(--faint)}
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .about-grid, .contact-grid, .timeline-item { grid-template-columns: 1fr; gap: 1.5rem; }
-      .timeline-item { grid-template-columns: 1fr; }
-      .hero-scroll-hint { display: none; }
-    }
-  </style>
+/* ——— reveal on scroll ——— */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:none}
+.more-link{font-family:var(--mono);font-size:.8rem;display:inline-block;margin-top:1.6rem}
+
+/* ——— responsive ——— */
+@media (max-width:720px){
+  .nav-links{display:none}
+  .paper{grid-template-columns:1fr;gap:1.1rem}
+  .fig{max-width:240px}
+  .xp{grid-template-columns:1fr;gap:.3rem}
+  .news-item{grid-template-columns:1fr;gap:.1rem}
+}
+</style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a href="#hero" class="nav-name">Hrithik Sagar</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#publications">Research</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="nav-inner">
+    <a class="nav-name" href="#">Hrithik Sagar</a>
+    <ul class="nav-links">
+      <li><a href="#news">News</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section id="hero" style="position:relative;">
-  <p class="hero-label">MS by Research · IIIT Hyderabad</p>
-  <h1 class="hero-title">Vision. <em>Language.</em> Documents.</h1>
-  <p class="hero-sub">
-    I'm Hrithik Sagar — an AI researcher building Vision-Language Models for multimodal document understanding and Indic AI, with work published at CVPR 2026.
+<div class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero">
+  <p class="kicker">Rachakonda Hrithik Sagar · CVIT, IIIT Hyderabad · BharatGen</p>
+  <h1>I build vision–language models that <span class="mark">ground their answers</span> — <em>pixel by pixel</em> — in the <span class="mark m2">documents they read</span>.</h1>
+  <p class="lede">
+    MS by Research student at <b>CVIT Lab, IIIT Hyderabad</b> and AI Research Engineer at <b>BharatGen</b>.
+    My work spans grounded chain-of-thought reasoning, mask-based document grounding, and large-scale
+    multilingual VLM training — including <b>DoCoG</b> (ECCV 2026), <b>M3Grounder</b> (CVPR 2026),
+    and <b>Patram-7B</b>, India's first foundational document VLM.
   </p>
-  <div class="hero-actions">
-    <a href="#publications" class="btn btn-primary">View Research</a>
-    <a href="https://scholar.google.com/citations?user=pfHRAAkAAAAJ&hl=en" target="_blank" class="btn btn-ghost">Google Scholar ↗</a>
+  <div class="hero-links">
+    <a href="mailto:hrithiksagar.rachakonda@gmail.com">email</a>
+    <a href="https://scholar.google.com/citations?user=pfHRAAkAAAAJ" target="_blank" rel="noopener">scholar</a>
+    <a href="https://github.com/hrithiksagar" target="_blank" rel="noopener">github</a>
+    <a href="https://linkedin.com/in/hrithiksagar" target="_blank" rel="noopener">linkedin</a>
+    <a href="https://huggingface.co/bharatgenai/patram-7b-instruct" target="_blank" rel="noopener">huggingface</a>
+    <a href="cv.pdf" target="_blank">cv&nbsp;↓</a>
   </div>
-  <div class="hero-scroll-hint">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
+  <!-- Optional headshot: drop photo.jpg in the repo root and uncomment.
+  <img src="photo.jpg" alt="Hrithik Sagar Rachakonda" style="width:120px;height:120px;border-radius:8px;object-fit:cover;margin-top:2rem;border:1px solid var(--line)">
+  -->
+</header>
 
-<!-- ABOUT -->
-<section id="about">
-  <p class="section-label">About</p>
-  <div class="about-grid">
-    <div class="about-text">
-      <h2 class="section-title">Building AI that understands documents like humans do.</h2>
-      <p>
-        I'm an <strong>MS by Research student</strong> at IIIT Hyderabad, working on Vision-Language Models, Multimodal Document Understanding, and Indic AI — the frontier of making AI systems that can read, reason about, and ground answers in complex documents.
-      </p>
-      <p>
-        At <strong>BharatGen</strong>, I contributed to <strong>Patram-7B</strong> — India's first foundational VLM for documents, released on HuggingFace and the IndiaAI AIKosh platform. My research spans grounded chain-of-thought reasoning, SAM-based segmentation, and SFT/DPO training pipelines.
-      </p>
-      <p>
-        I hold a <strong>B.Tech in CSE (AI & ML)</strong> from Sharda University, where I graduated with a 8.4 GPA on a full tuition scholarship for academic excellence.
-      </p>
-    </div>
-    <div class="about-stats">
-      <div class="stat-card">
-        <div class="stat-number">CVPR</div>
-        <div class="stat-label">2026 Main Conference — top-tier CV venue</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">~31</div>
-        <div class="stat-label">Citations · h-index 3</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">5+</div>
-        <div class="stat-label">Publications & Patents</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">Patram</div>
-        <div class="stat-label">India's first document-focused VLM</div>
-      </div>
-    </div>
+<!-- ══════════ NEWS ══════════ -->
+<section id="news">
+  <h2 class="sec">News</h2>
+  <div class="news">
+    <!-- TODO: verify/adjust dates -->
+    <div class="news-item reveal"><span class="news-date">2026</span><p><b>DoCoG</b> accepted to <b>ECCV 2026</b> (Malmö, Sweden) — equal-contribution first author.</p></div>
+    <div class="news-item reveal"><span class="news-date">2026</span><p><b>M3Grounder</b> accepted to <b>CVPR 2026</b> main conference — equal-contribution second author.</p></div>
+    <div class="news-item reveal"><span class="news-date">2025</span><p>Merged pull requests in <b>openai/gpt-oss</b> and <b>QwenLM/Qwen3-VL</b>.</p></div>
+    <div class="news-item reveal"><span class="news-date">2025</span><p><b>Patram-7B</b> released on HuggingFace and IndiaAI AIKosh — India's first foundational document VLM, supporting 22 Indian languages.</p></div>
   </div>
 </section>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <p class="section-label">Experience</p>
-  <h2 class="section-title">Where I've worked.</h2>
-  <div class="timeline">
+<!-- ══════════ FEATURED RESEARCH ══════════ -->
+<section id="research">
+  <h2 class="sec">Selected Research</h2>
 
-    <div class="timeline-item reveal">
-      <div class="timeline-meta">
-        <div class="timeline-period">Jan 2025 – Present</div>
-        <div class="timeline-location">Hyderabad</div>
-      </div>
-      <div>
-        <div class="timeline-role">Data Research Engineer, RA</div>
-        <div class="timeline-org">BharatGen · IndiaAI</div>
-        <p class="timeline-desc">
-          Core contributor to <strong>Patram-7B</strong>, India's first foundational VLM for documents, built from scratch and publicly released on HuggingFace and IndiaAI AIKosh. Built large-scale data pipelines for Indic document datasets; led model training, evaluation, and benchmarking. Research on mask-based Document QA grounding resulted in a <strong>CVPR 2026</strong> main conference paper.
-        </p>
-        <span class="tag">VLMs</span><span class="tag">Document AI</span><span class="tag">Indic AI</span><span class="tag">CVPR 2026</span>
-      </div>
+  <!-- DoCoG -->
+  <article class="paper reveal">
+    <div class="fig" aria-hidden="true">
+      <!-- schematic: document + grounded chain-of-thought -->
+      <svg viewBox="0 0 200 170">
+        <rect x="8" y="6" width="120" height="158" rx="4" fill="#fff" stroke="#E5E5DF"/>
+        <rect x="20" y="20" width="96" height="5" rx="2.5" fill="#D8D8D2"/>
+        <rect x="20" y="32" width="80" height="5" rx="2.5" fill="#E5E5DF"/>
+        <rect x="20" y="50" width="60" height="26" rx="3" fill="rgba(37,69,200,.16)"/>
+        <rect x="20" y="56" width="48" height="4" rx="2" fill="#B9C4EE"/>
+        <rect x="20" y="65" width="52" height="4" rx="2" fill="#B9C4EE"/>
+        <rect x="88" y="50" width="28" height="26" rx="3" fill="rgba(35,160,120,.28)"/>
+        <rect x="20" y="88" width="96" height="30" rx="3" fill="rgba(255,205,40,.55)"/>
+        <rect x="26" y="95" width="80" height="4" rx="2" fill="#C9A93A"/>
+        <rect x="26" y="104" width="66" height="4" rx="2" fill="#C9A93A"/>
+        <rect x="20" y="130" width="88" height="5" rx="2.5" fill="#E5E5DF"/>
+        <rect x="20" y="142" width="70" height="5" rx="2.5" fill="#E5E5DF"/>
+        <circle cx="158" cy="40" r="9" fill="none" stroke="#2545C8" stroke-width="1.5"/>
+        <circle cx="158" cy="85" r="9" fill="none" stroke="#C9A93A" stroke-width="1.5"/>
+        <circle cx="158" cy="130" r="9" fill="none" stroke="#23A078" stroke-width="1.5"/>
+        <path d="M158 49 L158 76 M158 94 L158 121" stroke="#9BA0A8" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <path d="M116 63 C138 58 146 48 150 44" stroke="#2545C8" stroke-width="1.2" fill="none" stroke-dasharray="3 3"/>
+        <path d="M116 103 C136 100 144 92 150 88" stroke="#C9A93A" stroke-width="1.2" fill="none" stroke-dasharray="3 3"/>
+        <text x="158" y="44" font-size="9" text-anchor="middle" fill="#2545C8" font-family="monospace">1</text>
+        <text x="158" y="89" font-size="9" text-anchor="middle" fill="#C9A93A" font-family="monospace">2</text>
+        <text x="158" y="134" font-size="9" text-anchor="middle" fill="#23A078" font-family="monospace">3</text>
+      </svg>
     </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-meta">
-        <div class="timeline-period">May 2024 – Dec 2024</div>
-        <div class="timeline-location">IIIT Hyderabad</div>
-      </div>
-      <div>
-        <div class="timeline-role">Research Assistant</div>
-        <div class="timeline-org">CVIT, IIIT Hyderabad</div>
-        <p class="timeline-desc">
-          Developed multimodal VLMs for Indic document understanding. Built <strong>M3Grounder</strong>, a mask-based multi-span and multi-granular grounding system achieving state-of-the-art results on DOGR-Bench, BoundingDocs, and MMDocBench.
-        </p>
-        <span class="tag">M3Grounder</span><span class="tag">Multimodal</span><span class="tag">Grounding</span>
-      </div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-meta">
-        <div class="timeline-period">Mar 2022 – Aug 2024</div>
-        <div class="timeline-location">Hyderabad</div>
-      </div>
-      <div>
-        <div class="timeline-role">Machine Learning Engineer</div>
-        <div class="timeline-org">Tech At Core · Part-time</div>
-        <p class="timeline-desc">
-          Built chatbots and AI solutions achieving 82–96% accuracy across client deployments. Engineered a patent-pending drone-ML device combining computer vision with autonomous navigation.
-        </p>
-        <span class="tag">ML Engineering</span><span class="tag">NLP</span><span class="tag">Drones</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- PUBLICATIONS -->
-<section id="publications">
-  <p class="section-label">Research</p>
-  <h2 class="section-title">Publications & Patents.</h2>
-  <div class="pub-grid">
-
-    <div class="pub-card reveal">
-      <div class="pub-venue">CVPR 2026 · Main Conference</div>
-      <div class="pub-title">M3Grounder: Mask-Based Multi-Span and Multi-Granular Grounding for Document QA</div>
-      <div class="pub-meta">Co-second Author (equal contribution) · Acceptance rate ~25%</div>
-      <a href="https://m3grounder.github.io/" target="_blank" class="pub-link">Project Page ↗</a>
-    </div>
-
-    <div class="pub-card reveal">
-      <div class="pub-venue">ECCV 2026 · Under Review</div>
-      <div class="pub-title">DoCoG: Mask-based Multi-Type Grounded Chain-of-Thought for Document QA</div>
-      <div class="pub-meta">Co-first Author · Introduced a mask-based grounded CoT framework enabling multi-type grounding of textual and graphical elements via a novel Grounding Interaction Module with [GND] tokens.</div>
-    </div>
-
-    <div class="pub-card reveal">
-      <div class="pub-venue">Springer · 2020 · 28 Citations</div>
-      <div class="pub-title">AI-Enabled Healthcare Chatbot for Patient Assistance</div>
-      <div class="pub-meta">Applications of AI & ML, Lecture Notes in Electrical Engineering, Springer</div>
-    </div>
-
-    <div class="pub-card reveal">
-      <div class="pub-venue">ICTACT · 2022 · 3 Citations</div>
-      <div class="pub-title">Malignant Skin Cancer Detection using CNN</div>
-      <div class="pub-meta">ICTACT Journal on Image and Video Processing, 2022</div>
-    </div>
-
-    <div class="pub-card reveal">
-      <div class="pub-venue">Springer AIR 2022 · Patent 202111040354</div>
-      <div class="pub-title">Women Assault Detection Using Pitch | Oral Healthcare Management Device</div>
-      <div class="pub-meta">Springer, Advancements in Interdisciplinary Research (AIR 2022) · Patent filed 2021–22</div>
-    </div>
-
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <p class="section-label">Projects</p>
-  <h2 class="section-title">Selected work.</h2>
-  <div class="projects-grid">
-
-    <div class="project-card reveal">
-      <div class="project-icon">⚖️</div>
-      <div class="project-title">Unveiling Bias in LLMs</div>
-      <div class="project-org">IIIT Hyderabad · 2024</div>
-      <p class="project-desc">Investigated demographic and linguistic bias in LLMs using Indian language prompts across multiple Indic languages — examining how multilingual models encode and propagate societal biases.</p>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="project-icon">🤖</div>
-      <div class="project-title">Robot Trajectory Planning</div>
-      <div class="project-org">IIIT Hyderabad · 2024</div>
-      <p class="project-desc">Implemented the cross-entropy method (CEM) for autonomous obstacle avoidance and navigation in ROS1 — enabling a robot to plan trajectories in dynamic environments with real-time feedback.</p>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="project-icon">🏥</div>
-      <div class="project-title">AI Healthcare Chatbot</div>
-      <div class="project-org">Springer Publication · 2020</div>
-      <p class="project-desc">Developed an intelligent patient assistance chatbot combining NLP and medical knowledge bases, published in Springer's AI & ML Applications series with 28 citations.</p>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="project-icon">🚁</div>
-      <div class="project-title">Drone-ML Device</div>
-      <div class="project-org">Tech At Core · Patent-pending</div>
-      <p class="project-desc">Engineered a patent-pending drone device integrating machine learning for real-time computer vision tasks — combining autonomous flight control with onboard inference capabilities.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <p class="section-label">Skills</p>
-  <h2 class="section-title">Technical toolkit.</h2>
-  <div class="skills-grid">
-    <div class="skill-group">
-      <div class="skill-group-title">Languages & Libraries</div>
-      <div class="skill-pills">
-        <span class="skill-pill">Python</span>
-        <span class="skill-pill">C++</span>
-        <span class="skill-pill">SQL</span>
-        <span class="skill-pill">PyTorch</span>
-        <span class="skill-pill">TensorFlow</span>
-        <span class="skill-pill">OpenCV</span>
-        <span class="skill-pill">SAM</span>
-        <span class="skill-pill">PEFT / LoRA</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">AI / ML</div>
-      <div class="skill-pills">
-        <span class="skill-pill">VLMs</span>
-        <span class="skill-pill">Multimodal Learning</span>
-        <span class="skill-pill">Deep Learning</span>
-        <span class="skill-pill">NLP</span>
-        <span class="skill-pill">Instruction Tuning</span>
-        <span class="skill-pill">RLHF</span>
-        <span class="skill-pill">Document AI</span>
-        <span class="skill-pill">Synthetic Data</span>
-        <span class="skill-pill">LLM Evaluation</span>
-        <span class="skill-pill">RAG</span>
-        <span class="skill-pill">AI Agents</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">LLMs & Orchestration</div>
-      <div class="skill-pills">
-        <span class="skill-pill">Claude</span>
-        <span class="skill-pill">GPT-4</span>
-        <span class="skill-pill">Gemini</span>
-        <span class="skill-pill">LangChain</span>
-        <span class="skill-pill">LlamaIndex</span>
-        <span class="skill-pill">DSPy</span>
-        <span class="skill-pill">vLLM</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Ecosystem & Infra</div>
-      <div class="skill-pills">
-        <span class="skill-pill">HuggingFace</span>
-        <span class="skill-pill">DeepSpeed</span>
-        <span class="skill-pill">FAISS</span>
-        <span class="skill-pill">Pinecone</span>
-        <span class="skill-pill">WandB</span>
-        <span class="skill-pill">Docker</span>
-        <span class="skill-pill">GCP</span>
-        <span class="skill-pill">SLURM</span>
-        <span class="skill-pill">Streamlit</span>
-        <span class="skill-pill">Gradio</span>
-        <span class="skill-pill">Git</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <p class="section-label">Contact</p>
-  <div class="contact-grid">
     <div>
-      <h2 class="section-title">Let's connect.</h2>
-      <p class="contact-text">
-        I'm always open to discussing research collaborations, internship opportunities, or just talking about multimodal AI and document understanding. Reach out through any of the channels below.
-      </p>
+      <span class="venue">ECCV 2026</span>
+      <h3>DoCoG: Mask-based Multi-Type Grounded Chain-of-Thought for Document QA</h3>
+      <p class="authors">Sai Madhusudan*, Jyothi Swaroopa*, <b>Hrithik Sagar*</b>, et&nbsp;al. <span class="note">(*equal contribution)</span></p>
+      <p class="abs">Extends grounding beyond answers to the reasoning itself: every step of the chain-of-thought is grounded in textual <em>and</em> graphical document elements through a Grounding Interaction Module with dedicated grounding tokens — so you can see exactly where each reasoning step looks.</p>
+      <div class="paper-links">
+        <a href="#" target="_blank">paper</a>
+        <a href="#" target="_blank">project page</a>
+        <a href="#" target="_blank">code</a>
+      </div>
     </div>
-    <div class="contact-links">
-      <a href="mailto:HrithikSagar.Rachakonda@gmail.com" class="contact-link">
-        <div>
-          <div class="contact-link-label">Email</div>
-          <div class="contact-link-val">HrithikSagar.Rachakonda@gmail.com</div>
-        </div>
-        <span class="arrow">↗</span>
-      </a>
-      <a href="https://github.com/hrithiksagar" target="_blank" class="contact-link">
-        <div>
-          <div class="contact-link-label">GitHub</div>
-          <div class="contact-link-val">github.com/hrithiksagar</div>
-        </div>
-        <span class="arrow">↗</span>
-      </a>
-      <a href="https://linkedin.com/in/hrithiksagar" target="_blank" class="contact-link">
-        <div>
-          <div class="contact-link-label">LinkedIn</div>
-          <div class="contact-link-val">linkedin.com/in/hrithiksagar</div>
-        </div>
-        <span class="arrow">↗</span>
-      </a>
-      <a href="https://scholar.google.com/citations?user=pfHRAAkAAAAJ&hl=en" target="_blank" class="contact-link">
-        <div>
-          <div class="contact-link-label">Google Scholar</div>
-          <div class="contact-link-val">~31 citations · h-index 3</div>
-        </div>
-        <span class="arrow">↗</span>
-      </a>
+  </article>
+
+  <!-- M3Grounder -->
+  <article class="paper reveal">
+    <div class="fig" aria-hidden="true">
+      <!-- schematic: multi-span, multi-granular masks -->
+      <svg viewBox="0 0 200 170">
+        <rect x="24" y="6" width="152" height="158" rx="4" fill="#fff" stroke="#E5E5DF"/>
+        <rect x="38" y="20" width="124" height="6" rx="3" fill="#D8D8D2"/>
+        <rect x="38" y="36" width="56" height="4" rx="2" fill="rgba(255,205,40,.55)"/>
+        <rect x="100" y="36" width="40" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="38" y="45" width="102" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="38" y="54" width="34" height="4" rx="2" fill="rgba(255,205,40,.55)"/>
+        <rect x="78" y="54" width="62" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="38" y="72" width="58" height="40" rx="3" fill="rgba(37,69,200,.16)"/>
+        <rect x="104" y="72" width="58" height="40" rx="3" fill="none" stroke="#23A078" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <rect x="112" y="80" width="42" height="4" rx="2" fill="#9ED4C0"/>
+        <rect x="112" y="89" width="36" height="4" rx="2" fill="#9ED4C0"/>
+        <rect x="112" y="98" width="40" height="4" rx="2" fill="#9ED4C0"/>
+        <rect x="38" y="124" width="124" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="38" y="133" width="70" height="4" rx="2" fill="rgba(255,205,40,.55)"/>
+        <rect x="114" y="133" width="48" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="38" y="142" width="106" height="4" rx="2" fill="#E5E5DF"/>
+      </svg>
+    </div>
+    <div>
+      <span class="venue">CVPR 2026</span>
+      <h3>M3Grounder: Mask-Based Multi-Span and Multi-Granular Grounding for Document QA</h3>
+      <p class="authors">…, Jyothi Swaroopa†, <b>Hrithik Sagar†</b>, et&nbsp;al. <span class="note">(†equal contribution)</span></p>
+      <p class="abs">Mask-based grounding that handles answers scattered across multiple spans and granularities — words, lines, blocks, figures. Introduces <b>GroundingDocQA</b>: 200K documents, 2M QA pairs. State-of-the-art on DOGR-Bench, BoundingDocs, and MMDocBench.</p>
+      <div class="paper-links">
+        <a href="https://m3grounder.github.io/" target="_blank" rel="noopener">project page</a>
+        <a href="#" target="_blank">paper</a>
+        <a href="#" target="_blank">dataset</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- Patram -->
+  <article class="paper reveal">
+    <div class="fig" aria-hidden="true">
+      <!-- schematic: multilingual document → model -->
+      <svg viewBox="0 0 200 170">
+        <rect x="14" y="14" width="100" height="140" rx="4" fill="#fff" stroke="#E5E5DF"/>
+        <rect x="26" y="28" width="76" height="6" rx="3" fill="#D8D8D2"/>
+        <text x="26" y="62" font-size="16" fill="#565B65" font-family="serif">అ</text>
+        <text x="48" y="62" font-size="16" fill="#565B65" font-family="serif">हि</text>
+        <text x="70" y="62" font-size="16" fill="#565B65" font-family="serif">ਪ</text>
+        <text x="90" y="62" font-size="16" fill="#565B65" font-family="serif">A</text>
+        <rect x="26" y="74" width="76" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="26" y="83" width="60" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="26" y="96" width="76" height="24" rx="3" fill="rgba(255,205,40,.55)"/>
+        <rect x="26" y="130" width="52" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="26" y="139" width="66" height="4" rx="2" fill="#E5E5DF"/>
+        <rect x="132" y="56" width="54" height="54" rx="8" fill="none" stroke="#2545C8" stroke-width="1.5"/>
+        <text x="159" y="80" font-size="9.5" text-anchor="middle" fill="#2545C8" font-family="monospace">Patram</text>
+        <text x="159" y="93" font-size="9.5" text-anchor="middle" fill="#2545C8" font-family="monospace">7B</text>
+        <path d="M114 84 L130 84" stroke="#9BA0A8" stroke-width="1.2"/>
+        <path d="M126 80 L131 84 L126 88" fill="none" stroke="#9BA0A8" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <div>
+      <span class="venue soft">Open Model · HuggingFace + IndiaAI AIKosh</span>
+      <h3>Patram-7B: India's First Foundational Document VLM</h3>
+      <p class="authors">BharatGen · <b>Hrithik Sagar</b> — synthetic data engine, multi-node training, benchmarking lead</p>
+      <p class="abs">Supports <b>22 Indian languages</b>. Built the synthetic data engine that generated <b>10M QA pairs across 400K documents</b>, ran multi-node training on <b>64 H100 GPUs</b>, and led all benchmarking for the release.</p>
+      <div class="paper-links">
+        <a href="https://huggingface.co/bharatgenai/patram-7b-instruct" target="_blank" rel="noopener">model</a>
+        <a href="#" target="_blank">aikosh</a>
+      </div>
+    </div>
+  </article>
+
+  <a class="more-link" href="publications.html">full publication list →</a>
+</section>
+
+<!-- ══════════ EXPERIENCE ══════════ -->
+<section id="experience">
+  <h2 class="sec">Experience</h2>
+
+  <div class="xp reveal">
+    <div class="xp-when">Jan 2025 — present</div>
+    <div>
+      <h3>AI Research Engineer</h3>
+      <p class="org">BharatGen · IndiaAI — Hyderabad</p>
+      <p class="desc">Core contributor to <b>Patram-7B</b>: synthetic data generation at 10M-QA-pair scale, multi-node H100 training, evaluation and benchmarking. vLLM inference optimization with significant latency reduction in production serving.</p>
+    </div>
+  </div>
+
+  <div class="xp reveal">
+    <div class="xp-when">2024 — present</div>
+    <div>
+      <h3>MS by Research · Research Assistant</h3>
+      <p class="org">CVIT Lab, IIIT Hyderabad</p>
+      <p class="desc">Research on mask-based document grounding and grounded multimodal reasoning — leading to <b>M3Grounder</b> (CVPR 2026) and <b>DoCoG</b> (ECCV 2026).</p>
+    </div>
+  </div>
+
+  <div class="xp reveal">
+    <div class="xp-when">2022 — 2024</div>
+    <div>
+      <h3>Machine Learning Engineer (part-time)</h3>
+      <p class="org">Tech At Core · Hyderabad</p>
+      <p class="desc">Shipped NLP and computer-vision systems for client deployments; engineered a patent-pending drone-ML device combining onboard vision inference with autonomous navigation.</p>
+    </div>
+  </div>
+
+  <div class="xp reveal">
+    <div class="xp-when">2019 — 2023</div>
+    <div>
+      <h3>B.Tech CSE (AI &amp; ML)</h3>
+      <p class="org">Sharda University — full tuition scholarship for academic excellence · GPA 8.40</p>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2025 Rachakonda Hrithik Sagar. All rights reserved.</p>
-  <p>IIIT Hyderabad · Telangana, India</p>
+<!-- ══════════ OPEN SOURCE & SYSTEMS ══════════ -->
+<section id="oss">
+  <h2 class="sec">Open Source &amp; Systems</h2>
+  <div class="oss">
+    <div class="oss-item reveal"><code>openai/gpt-oss</code><span>Merged pull request — <a href="#" target="_blank">PR link</a></span></div>
+    <div class="oss-item reveal"><code>QwenLM/Qwen3-VL</code><span>Merged pull request — <a href="#" target="_blank">PR link</a></span></div>
+    <div class="oss-item reveal"><code>vLLM</code><span>Production inference optimization: significant serving-latency reduction for document VLM workloads</span></div>
+    <div class="oss-item reveal"><code>240 × H100</code><span>Multi-node (30 Nodes) distributed training for Patram-7B pre-training and instruction tuning</span></div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<footer id="contact">
+  <p class="contact-line">Open to research collaborations and conversations about grounding, multimodal reasoning, and multilingual VLMs. Say hello at ECCV 2026 in Malmö.</p>
+  <div class="foot-links">
+    <a href="mailto:hrithiksagar.rachakonda@gmail.com">hrithiksagar.rachakonda@gmail.com</a>
+    <a href="https://scholar.google.com/citations?user=pfHRAAkAAAAJ" target="_blank" rel="noopener">google scholar</a>
+    <a href="https://github.com/hrithiksagar" target="_blank" rel="noopener">github</a>
+    <a href="https://linkedin.com/in/hrithiksagar" target="_blank" rel="noopener">linkedin</a>
+  </div>
+  <p class="colophon">© 2026 Rachakonda Hrithik Sagar · Hyderabad, India</p>
 </footer>
 
+</div><!-- /wrap -->
+
 <script>
-  // Intersection Observer for scroll reveals
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        // Stagger siblings
-        const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
-        const idx = siblings.indexOf(entry.target);
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-        }, idx * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => observer.observe(el));
-
-  // Smooth active nav highlighting
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 100) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--ink)' : '';
-    });
-  }, { passive: true });
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const sib=[...e.target.parentElement.querySelectorAll('.reveal')];
+      setTimeout(()=>e.target.classList.add('in'), Math.max(0,sib.indexOf(e.target))*70);
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
